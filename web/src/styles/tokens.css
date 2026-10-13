@@ -5,29 +5,29 @@
  * Lys tilstand er standard. Mørk tilstand (»blå time«) slås kun til, når læseren
  * vælger den (data-mode="dark" på <html>).
  *
- * Udtryk: en læsende, tvivlende avis. Lyset fra en Hammershøi-stue, tågen over
- * Øresund i den blå time. Forsiden åbner i et diset farvefelt drevet af ugens farve;
+ * Udtryk: en læsende, tvivlende avis. Det blege lys i en Hammershøi-stue,
+ * grå vægge og indigo i skyggerne. Forsiden åbner i et diset farvefelt drevet af ugens farve;
  * resten er rolig tekst med kursiv, marginnoter og breve.
  */
 :root {
   color-scheme: light;
 
   /* Farver */
-  --issue-color: #3f4f8c; /* »ugens farve« – sættes pr. nummer fra Sanity */
-  --paper: #f5f2ec;
-  --paper-raised: #ece7df;
+  --issue-color: #3a4482; /* »ugens farve« – sættes pr. nummer fra Sanity */
+  --paper: #f3f1ec;
+  --paper-raised: #e8e5de;
   --ink: #1d1c24;
   --ink-2: #4c4a55;
   --ink-3: #7d7a84;
-  --rule: #dad4cb;
+  --rule: #d8d4cc;
   --rule-strong: #1d1c24;
   --accent: var(--issue-color);
 
   /* Forsidens dis – tre lys, der blandes. Det første følger ugens farve. */
-  --mist-1: color-mix(in srgb, var(--issue-color) 55%, var(--paper));
-  --mist-2: #f0bf9a; /* aftenlys */
-  --mist-3: #a9c6c0; /* hav og lav */
-  --grain-opacity: 0.16;
+  --mist-1: color-mix(in srgb, var(--issue-color) 47%, var(--paper));
+  --mist-2: #e2dccf; /* vinduets lys hos Hammershøi */
+  --mist-3: #c4cad8; /* grå, kold væg */
+  --grain-opacity: 0.13;
 
   /* Skrift – alt er serif */
   --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
@@ -66,7 +66,7 @@
   --rule-strong: #ece9f0;
   --accent: color-mix(in srgb, var(--issue-color) 50%, white);
   --mist-1: color-mix(in srgb, var(--issue-color) 55%, var(--paper));
-  --mist-2: #4a3434;
-  --mist-3: #1f3a3c;
+  --mist-2: #2b2a33;
+  --mist-3: #232a3a;
   --grain-opacity: 0.1;
 }

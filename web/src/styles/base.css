@@ -565,7 +565,7 @@ a:hover {
   z-index: -1;
   background:
     radial-gradient(50% 60% at 25% 30%, color-mix(in srgb, var(--issue-color) 70%, transparent), transparent 70%),
-    radial-gradient(45% 50% at 80% 80%, color-mix(in srgb, #ecc6a6 35%, transparent), transparent 70%);
+    radial-gradient(45% 50% at 80% 80%, color-mix(in srgb, var(--mist-3) 30%, transparent), transparent 70%);
   filter: blur(18px);
   opacity: 0.8;
   transition: opacity 300ms ease;

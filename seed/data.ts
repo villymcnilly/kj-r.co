@@ -404,7 +404,7 @@ const issues = [
     video: ref('dummy-video-1'),
     artDirection: {
       _type: 'artDirection',
-      color: '#3f4f8c',
+      color: '#3a4482',
       theme: 'standard',
       headlineTreatment: 'stor',
     },
