@@ -1,34 +1,29 @@
 ---
 import {brand} from '../../../brand.config.ts'
-import {formatDateLong} from '../lib/format.ts'
+import {formatDateLong, isoWeek} from '../lib/format.ts'
 
 interface Props {
   number?: number
   date?: string
 }
 const {number, date} = Astro.props
+const today = date ? formatDateLong(date) : ''
 ---
 
 <header class="masthead">
-  <div class="masthead__bar">
+  <div class="masthead__top">
+    {date ? <time datetime={date}>{today.charAt(0).toUpperCase() + today.slice(1)}</time> : <span />}
     <nav class="masthead__nav" aria-label="Hovedmenu">
       <a href="/arkiv/">Tidligere forsider</a>
       <a href="/dossier/">Dossierer</a>
       <a href="/om/">Om</a>
+      <button class="mode-toggle" type="button" hidden>Mørk tilstand</button>
     </nav>
-    <button class="mode-toggle" type="button" hidden>Mørk tilstand</button>
   </div>
   <a class="masthead__brand" href="/">{brand.name}</a>
-  <p class="masthead__tagline">{brand.tagline}</p>
-  {
-    number && date && (
-      <p class="masthead__dateline">
-        <span>Nr. {number}</span>
-        <span>{brand.city}</span>
-        <span>
-          <time datetime={date}>{formatDateLong(date)}</time>
-        </span>
-      </p>
-    )
-  }
+  <p class="masthead__edition">
+    {number && <strong>Nr. {number}</strong>}
+    {date && <span>Uge {isoWeek(date)}</span>}
+    <span>{brand.tagline}</span>
+  </p>
 </header>

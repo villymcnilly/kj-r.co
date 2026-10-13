@@ -44,3 +44,11 @@ export const isoWeek = (iso: string) => {
   const firstThursday = new Date(Date.UTC(d.getUTCFullYear(), 0, 4))
   return 1 + Math.round(((d.getTime() - firstThursday.getTime()) / 86400000 - 3 + ((firstThursday.getUTCDay() + 6) % 7)) / 7)
 }
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+/**
+ * Overskrifter: tankestregen sættes i brødtekstskriften, fordi visningsskriften
+ * tegner den som en hårstreg, der næsten forsvinder.
+ */
+export const typeset = (text: string) => esc(text).replace(/\s–\s/g, ' <span class="dash">–</span> ')

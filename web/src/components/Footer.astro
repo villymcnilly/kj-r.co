@@ -3,6 +3,10 @@ import {brand} from '../../../brand.config.ts'
 ---
 
 <footer class="footer">
-  <span>{brand.name} – {brand.tagline}</span>
-  <span><a href="/rss.xml">RSS</a> · <a href="/om/">Om</a></span>
+  <span class="footer__brand">{brand.name}</span>
+  <span class="footer__links">
+    <a href="/om/">Om</a>
+    <a href="/arkiv/">Tidligere forsider</a>
+    <a href="/rss.xml">RSS</a>
+  </span>
 </footer>

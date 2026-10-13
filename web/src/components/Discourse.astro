@@ -1,6 +1,7 @@
 ---
-/** Diskursen: samme historie, fortalt forskellige steder. */
+/** »Set fra« – samme historie fortalt forskellige steder. */
 import {bundlePath} from '../lib/content.ts'
+import {typeset} from '../lib/format.ts'
 import type {Bundle} from '../lib/types.ts'
 
 interface Props {
@@ -11,28 +12,24 @@ const {bundle, issueNumber} = Astro.props
 const href = bundlePath(issueNumber, bundle.slug)
 ---
 
-<section class="discourse" id={`opslag-${bundle.slug}`} aria-labelledby={`h-${bundle.slug}`}>
-  <div class="discourse__head">
-    <p class="section-label">Diskursen</p>
-    <h2 class="discourse__headline" id={`h-${bundle.slug}`}>
-      <a href={href} data-pop={bundle.slug}>{bundle.headline}</a>
+<section class="views" id={`opslag-${bundle.slug}`} aria-labelledby={`h-${bundle.slug}`}>
+  <div class="views__head">
+    <p class="label label--accent">Diskursen</p>
+    <h2 class="views__headline" id={`h-${bundle.slug}`}>
+      <a href={href} data-pop={bundle.slug} set:html={typeset(bundle.headline)} />
     </h2>
-    {bundle.dek && <p class="bundle__dek">{bundle.dek}</p>}
+    {bundle.dek && <p class="views__dek">{bundle.dek}</p>}
   </div>
-  <ol class="places">
+  <ol class="views__list">
     {
       bundle.items.map((item) => (
-        <li class="place">
-          <p class="place__name">{item.label}</p>
-          {item.comment && <p class="place__comment">{item.comment}</p>}
-          <p class="place__source">
-            <a href={item.source.url} rel="noopener" target="_blank">
-              {item.source.outlet?.name}
-            </a>
-          </p>
+        <li class="view">
+          <p class="view__place">Set fra {item.label}</p>
+          {item.comment && <p class="view__text">{item.comment}</p>}
+          <p class="meta">{item.source.outlet?.name}</p>
         </li>
       ))
     }
   </ol>
-  <a class="bundle__more" href={href} data-pop={bundle.slug}>Se kilderne bag de fire fortællinger</a>
+  <a class="more" href={href} data-pop={bundle.slug}>Se kilderne</a>
 </section>

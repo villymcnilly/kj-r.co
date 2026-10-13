@@ -1,18 +1,17 @@
 ---
 /** Ugens forside. Strukturen er fast – temaet bestemmer udtrykket. */
 import {placedBundles} from '../lib/content.ts'
-import {sketch} from '../lib/env.ts'
-import {isoWeek} from '../lib/format.ts'
+import {typeset} from '../lib/format.ts'
 import {toHtml, toPlain} from '../lib/richText.ts'
 import type {Issue} from '../lib/types.ts'
 import Layout from '../layouts/Layout.astro'
 import Briefs from './Briefs.astro'
 import BundleFull from './BundleFull.astro'
-import BundleTeaser from './BundleTeaser.astro'
 import Discourse from './Discourse.astro'
 import Footer from './Footer.astro'
+import Lead from './Lead.astro'
 import Masthead from './Masthead.astro'
-import SketchSwitcher from './SketchSwitcher.astro'
+import Story from './Story.astro'
 import Video from './Video.astro'
 
 interface Props {
@@ -21,7 +20,6 @@ interface Props {
 const {issue} = Astro.props
 const n = issue.number
 const title = issue.title || issue.lead.headline
-const bundles = placedBundles(issue)
 const description = issue.seo?.description || toPlain(issue.leader) || issue.lead.dek
 ---
 
@@ -36,75 +34,57 @@ const description = issue.seo?.description || toPlain(issue.leader) || issue.lea
     {issue.isDummy && <p class="dummy-note">Eksempelnummer – medier, forfattere og artikler er opdigtede</p>}
     <Masthead number={n} date={issue.date} />
 
-    <section class="cover" aria-labelledby="forside-titel">
-      <div class="cover__art" aria-hidden="true">
-        <span class="cover__caption">Nr. {n} · Uge {isoWeek(issue.date)}</span>
-        <span class="cover__numeral">{n}</span>
-      </div>
-      <p class="cover__eyebrow">Uge {isoWeek(issue.date)}</p>
-      <h1 class="cover__title" id="forside-titel">{title}</h1>
-      {issue.leader?.length ? <div class="cover__leader prose" set:html={toHtml(issue.leader)} /> : null}
-    </section>
+    <main>
+      <div class="front">
+        <section class="front__leader leader" aria-labelledby="forside-titel">
+          <p class="label label--accent">Leder</p>
+          <h1 class="leader__title" id="forside-titel" set:html={typeset(title)} />
+          {issue.leader?.length ? <div class="leader__text" set:html={toHtml(issue.leader)} /> : null}
+        </section>
 
-    <nav class="digest" aria-labelledby="i-korte-traek">
-      <h2 class="section-label" id="i-korte-traek">I korte træk</h2>
-      <ol>
+        <div class="front__lead">
+          <Lead bundle={issue.lead} issueNumber={n} />
+        </div>
+
         {
-          bundles.map((b) => (
-            <li>
-              <a href={`#opslag-${b.slug}`}>
-                {b.kicker && <span class="digest__kicker">{b.kicker}</span>}
-                {b.headline}
-              </a>
-            </li>
-          ))
+          issue.side?.length ? (
+            <div class="front__side side">
+              {issue.side.map((b) => (
+                <Story bundle={b} issueNumber={n} />
+              ))}
+            </div>
+          ) : null
         }
-      </ol>
-    </nav>
 
-    <main class="front">
-      <div class="front__lead">
-        <BundleTeaser bundle={issue.lead} issueNumber={n} variant="lead" />
+        {
+          issue.briefs?.length ? (
+            <div class="front__briefs">
+              <Briefs bundles={issue.briefs} issueNumber={n} />
+            </div>
+          ) : null
+        }
       </div>
+
+      {issue.discourse && <Discourse bundle={issue.discourse} issueNumber={n} />}
+
       {
-        issue.side?.length ? (
-          <div class="front__side">
-            {issue.side.map((b) => (
-              <BundleTeaser bundle={b} issueNumber={n} variant="side" />
-            ))}
+        issue.reflection?.length || issue.video ? (
+          <div class="closing">
+            {issue.reflection?.length ? (
+              <section class="reflection" aria-labelledby="refleksion">
+                <h2 class="label label--accent" id="refleksion">
+                  Refleksion
+                </h2>
+                <div class="prose" set:html={toHtml(issue.reflection)} />
+              </section>
+            ) : null}
+            {issue.video && (
+              <aside class="closing__aside">
+                <Video video={issue.video} />
+              </aside>
+            )}
           </div>
         ) : null
-      }
-      {
-        issue.briefs?.length ? (
-          <div class="front__briefs">
-            <Briefs bundles={issue.briefs} issueNumber={n} />
-          </div>
-        ) : null
-      }
-      {
-        issue.discourse && (
-          <div class="front__discourse">
-            <Discourse bundle={issue.discourse} issueNumber={n} />
-          </div>
-        )
-      }
-      {
-        issue.reflection?.length ? (
-          <section class="front__reflection reflection" aria-labelledby="refleksion">
-            <h2 class="section-label" id="refleksion">
-              Refleksion
-            </h2>
-            <div class="prose" set:html={toHtml(issue.reflection)} />
-          </section>
-        ) : null
-      }
-      {
-        issue.video && (
-          <div class="front__video">
-            <Video video={issue.video} />
-          </div>
-        )
       }
     </main>
 
@@ -112,15 +92,15 @@ const description = issue.seo?.description || toPlain(issue.leader) || issue.lea
   </div>
 
   {
-    bundles.map((b) => (
+    placedBundles(issue).map((b) => (
       <dialog class="popout" id={`pop-${b.slug}`} aria-label={b.headline}>
-        <button class="popout__close" type="button">
-          Luk
-        </button>
+        <div class="popout__bar">
+          <button class="popout__close" type="button">
+            Luk
+          </button>
+        </div>
         <BundleFull bundle={b} />
       </dialog>
     ))
   }
-
-  {sketch && <SketchSwitcher />}
 </Layout>

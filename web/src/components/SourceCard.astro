@@ -1,0 +1,57 @@
+---
+/**
+ * Kildekortet i det udfoldede opslag. Faste sektioner i fast rækkefølge,
+ * så læseren altid ved, hvor præcis, vurdering og citat står.
+ */
+import {formatDate, languageLabel, sourceTypeLabel} from '../lib/format.ts'
+import type {BundleItem} from '../lib/types.ts'
+
+interface Props {
+  item: BundleItem
+}
+const {item} = Astro.props
+const s = item.source
+---
+
+<section class="card" id={`kilde-${s._id}`}>
+  <div class="card__head">
+    {item.label && <p class="label label--accent">Set fra {item.label}</p>}
+    <p class="card__facts">
+      <span class="source__outlet">{s.outlet?.name}</span>
+      <span>{sourceTypeLabel(s.type)}</span>
+      <span>{languageLabel(s.language)}</span>
+      <time datetime={s.publishedAt}>{formatDate(s.publishedAt)}</time>
+    </p>
+    <h3 class="card__title">
+      <a href={s.url} lang={s.language} rel="noopener" target="_blank">{s.title}</a>
+    </h3>
+    {s.author && <p class="meta">Af {s.author}</p>}
+  </div>
+  <div class="card__section">
+    <p class="label">Kort fortalt</p>
+    <p>{s.precis}</p>
+  </div>
+  <div class="card__section">
+    <p class="label">Hvorfor det betyder noget for os</p>
+    <p>{s.whyItMatters}</p>
+  </div>
+  {
+    s.quote && (
+      <div class="card__section">
+        <p class="label">Citat</p>
+        <blockquote class="card__quote" lang={s.language}>
+          »{s.quote}«
+        </blockquote>
+        {s.quoteTranslation && <p class="card__translation">»{s.quoteTranslation}«</p>}
+      </div>
+    )
+  }
+  {
+    item.comment && (
+      <div class="card__section card__section--comment">
+        <p class="label label--accent">Kommentar</p>
+        <p>{item.comment}</p>
+      </div>
+    )
+  }
+</section>

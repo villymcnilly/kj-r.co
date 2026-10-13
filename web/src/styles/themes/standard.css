@@ -1,4 +1,12 @@
 /*
- * STANDARD – det tema, numre bruger, når de ikke har deres eget.
- * Indtil du har valgt retning, er standard = A · Review (se themes/index.ts).
+ * STANDARD – sitets grundudtryk (tokens.css og base.css) uden ændringer.
+ *
+ * Et ugetema laves ved at kopiere denne fil til fx nr-14.css og overskrive tokens:
+ *
+ *   :root[data-style='nr-14'] {
+ *     --paper: #f3f0ff;
+ *     --font-display: 'Fraunces', Georgia, serif;
+ *     & .lead__headline { letter-spacing: -0.02em; }
+ *   }
+ *   :root[data-style='nr-14'][data-mode='dark'] { --paper: #15131c; }
  */

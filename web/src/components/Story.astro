@@ -1,0 +1,22 @@
+---
+/** Et opslag i sidespalten: overskrift, manchet og kilderne i én linje. */
+import {bundlePath} from '../lib/content.ts'
+import {countSources, typeset} from '../lib/format.ts'
+import type {Bundle} from '../lib/types.ts'
+
+interface Props {
+  bundle: Bundle
+  issueNumber: number
+}
+const {bundle, issueNumber} = Astro.props
+const outlets = [...new Set(bundle.items.map((i) => i.source.outlet?.name).filter(Boolean))]
+---
+
+<article class="story" id={`opslag-${bundle.slug}`}>
+  {bundle.kicker && <p class="label label--accent">{bundle.kicker}</p>}
+  <h3 class="story__headline">
+    <a href={bundlePath(issueNumber, bundle.slug)} data-pop={bundle.slug} set:html={typeset(bundle.headline)} />
+  </h3>
+  {bundle.dek && <p class="story__dek">{bundle.dek}</p>}
+  <p class="meta">{countSources(bundle.items.length)[0].toUpperCase() + countSources(bundle.items.length).slice(1)}: {outlets.join(', ')}</p>
+</article>

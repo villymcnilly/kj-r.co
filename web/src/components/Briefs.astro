@@ -9,29 +9,20 @@ interface Props {
 const {bundles, issueNumber} = Astro.props
 ---
 
-<section aria-labelledby="kort-nyt">
-  <h2 class="section-label" id="kort-nyt">Kort nyt</h2>
-  <ul class="briefs">
+<section class="briefs" aria-labelledby="kort-nyt">
+  <h2 class="briefs__head label" id="kort-nyt">Kort nyt</h2>
+  <ul>
     {
-      bundles.map((b) => {
-        const item = b.items[0]
-        return (
-          <li class="brief" id={`opslag-${b.slug}`}>
-            {b.kicker && <p class="kicker">{b.kicker}</p>}
-            <h3 class="brief__headline">
-              <a href={bundlePath(issueNumber, b.slug)} data-pop={b.slug}>
-                {b.headline}
-              </a>
-            </h3>
-            {item && (
-              <p class="brief__source">
-                <em>{item.source.outlet?.name}</em>
-                {item.comment && <> – {item.comment}</>}
-              </p>
-            )}
-          </li>
-        )
-      })
+      bundles.map((b) => (
+        <li class="brief" id={`opslag-${b.slug}`}>
+          <h3 class="brief__headline">
+            <a href={bundlePath(issueNumber, b.slug)} data-pop={b.slug}>
+              {b.headline}
+            </a>
+          </h3>
+          {b.items[0] && <p class="meta">{b.items[0].source.outlet?.name}</p>}
+        </li>
+      ))
     }
   </ul>
 </section>

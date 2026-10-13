@@ -33,10 +33,10 @@ const {issue, bundle} = Astro.props as {issue: Issue; bundle: Bundle}
   <div class="page">
     <Masthead number={issue.number} date={issue.date} />
     <main class="standalone">
-      <div class="bundle-full">
-        <a class="back-link" href={issuePath(issue.number)}>Til forsiden af nr. {issue.number}</a>
+      <div class="article">
+        <a class="back" href={issuePath(issue.number)}>Til forsiden af nr. {issue.number}</a>
+        <BundleFull bundle={bundle} headingLevel={1} />
       </div>
-      <BundleFull bundle={bundle} headingLevel={1} />
     </main>
     <Footer />
   </div>

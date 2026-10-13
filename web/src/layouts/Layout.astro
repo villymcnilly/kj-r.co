@@ -1,7 +1,7 @@
 ---
 import {brand} from '../../../brand.config.ts'
 import {sketch} from '../lib/env.ts'
-import {fontsHref, resolveStyle, themeCss, themes} from '../styles/themes/index.ts'
+import {fontsHref, resolveStyle, themeCss} from '../styles/themes/index.ts'
 import '../styles/tokens.css'
 import '../styles/base.css'
 
@@ -16,7 +16,6 @@ interface Props {
 
 const {title, description = brand.tagline, theme, issueColor, ogImage, type = 'website'} = Astro.props
 const style = resolveStyle(theme)
-const styles = sketch ? Object.keys(themes) : [style]
 const fullTitle = title ? `${title} – ${brand.name}` : `${brand.name} – ${brand.tagline}`
 const canonical = new URL(Astro.url.pathname, brand.url).href
 ---
@@ -40,51 +39,36 @@ const canonical = new URL(Astro.url.pathname, brand.url).href
     <meta name="theme-color" content={issueColor ?? brand.defaultColor} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={fontsHref(styles)} />
-    {styles.map((key) => <style is:inline set:html={themeCss(key)} />)}
+    <link rel="stylesheet" href={fontsHref(style)} />
+    <style is:inline set:html={themeCss(style)} />
     <script is:inline>
       try {
-        var m = localStorage.getItem('farvetilstand')
-        if (m === 'dark' || m === 'light') document.documentElement.dataset.theme = m
+        if (localStorage.getItem('farvetilstand') === 'dark') document.documentElement.dataset.mode = 'dark'
       } catch (e) {}
     </script>
-    {
-      sketch && (
-        <script is:inline>
-          try {
-            var s = localStorage.getItem('stilretning')
-            if (s === 'review' || s === 'magasin' || s === 'museum') document.documentElement.dataset.style = s
-          } catch (e) {}
-        </script>
-      )
-    }
   </head>
   <body>
     <slot />
     <script is:inline define:vars={{sketch}}>
-      // Lys/mørk: følger systemet, indtil læseren vælger selv.
+      // Lys er standard. Mørk tilstand kun når læseren selv vælger den.
       var root = document.documentElement
-      var dark = window.matchMedia('(prefers-color-scheme: dark)')
-      var current = function () {
-        return root.dataset.theme || (dark.matches ? 'dark' : 'light')
-      }
       var label = function () {
         document.querySelectorAll('.mode-toggle').forEach(function (b) {
-          b.textContent = current() === 'dark' ? 'Lys tilstand' : 'Mørk tilstand'
+          b.textContent = root.dataset.mode === 'dark' ? 'Lys tilstand' : 'Mørk tilstand'
         })
       }
       document.querySelectorAll('.mode-toggle').forEach(function (b) {
         b.hidden = false
         b.addEventListener('click', function () {
-          var next = current() === 'dark' ? 'light' : 'dark'
-          root.dataset.theme = next
+          var next = root.dataset.mode === 'dark' ? 'light' : 'dark'
+          if (next === 'dark') root.dataset.mode = 'dark'
+          else delete root.dataset.mode
           try {
             localStorage.setItem('farvetilstand', next)
           } catch (e) {}
           label()
         })
       })
-      dark.addEventListener('change', label)
       label()
 
       // Pop-out: opslag foldes ud over forsiden og får deres egen adresse.
