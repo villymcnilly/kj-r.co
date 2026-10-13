@@ -13,9 +13,9 @@ export const artDirection = defineType({
       name: 'color',
       title: 'Ugens farve',
       type: 'string',
-      description: 'Hex-kode, fx #285e6b. Bruges til overrubrikker, links og forsidens accent.',
+      description: 'Hex-kode, fx #3f4f8c. Bruges til overrubrikker, links og forsidens accent.',
       validation: (rule) => [
-        rule.regex(/^#[0-9a-fA-F]{6}$/, {name: 'hex'}).error('Skal være en hex-kode som #285e6b'),
+        rule.regex(/^#[0-9a-fA-F]{6}$/, {name: 'hex'}).error('Skal være en hex-kode som #3f4f8c'),
         rule.custom((value?: string) => {
           if (!value) return true
           const c = contrast(value, paper.light)

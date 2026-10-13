@@ -379,6 +379,7 @@ const issues = [
     number: 1,
     date: '2026-10-09',
     title: 'Fodnoterne',
+    openQuestion: 'Hvem har egentlig ret til at fortælle historien om en ø?',
     leader: [
       p(
         '*Dette er et eksempelnummer med opdigtet indhold.* Ugens tråd er fodnoter: hvem der bliver gjort til en, og hvem der skriver dem. Grønland blev beskrevet fra fire hovedstæder – og sjældnest fra sin egen.',
@@ -403,7 +404,7 @@ const issues = [
     video: ref('dummy-video-1'),
     artDirection: {
       _type: 'artDirection',
-      color: '#285e6b',
+      color: '#3f4f8c',
       theme: 'standard',
       headlineTreatment: 'stor',
     },

@@ -8,7 +8,7 @@ export const brand = {
   locale: 'da-DK',
   lang: 'da',
   /** Bruges når et nummer ikke har sat sin egen farve. */
-  defaultColor: '#285e6b',
+  defaultColor: '#3f4f8c',
   url: 'https://example.com',
 } as const
 

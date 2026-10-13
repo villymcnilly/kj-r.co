@@ -1,5 +1,5 @@
 ---
-/** Forsidehistorien – det største element på siden. */
+/** Forsidehistorien med kilderne som marginnoter. */
 import {bundlePath} from '../lib/content.ts'
 import {languageLabel, sourceTypeLabel, typeset} from '../lib/format.ts'
 import {toHtml} from '../lib/richText.ts'
@@ -14,27 +14,29 @@ const href = bundlePath(issueNumber, bundle.slug)
 ---
 
 <article class="lead" id={`opslag-${bundle.slug}`}>
-  {bundle.kicker && <p class="label label--accent">{bundle.kicker}</p>}
-  <h2 class="lead__headline"><a href={href} data-pop={bundle.slug} set:html={typeset(bundle.headline)} /></h2>
-  {bundle.dek && <p class="lead__dek">{bundle.dek}</p>}
-  {bundle.body?.length ? <div class="lead__body prose" set:html={toHtml(bundle.body)} /> : null}
-  <div class="sources">
-    <p class="sources__head label">Kilderne</p>
-    <ul>
+  <div class="lead__main">
+    {bundle.kicker && <p class="kicker">{bundle.kicker}</p>}
+    <h2 class="lead__headline"><a href={href} data-pop={bundle.slug} set:html={typeset(bundle.headline)} /></h2>
+    {bundle.dek && <p class="lead__dek">{bundle.dek}</p>}
+    {bundle.body?.length ? <div class="lead__body prose" set:html={toHtml(bundle.body)} /> : null}
+    <a class="more" href={href} data-pop={bundle.slug}>Læs hele opslaget</a>
+  </div>
+  <aside class="notes" aria-label="Kilderne">
+    <p class="label">I margenen</p>
+    <ol>
       {
         bundle.items.map((item) => (
-          <li class="source">
-            <p class="source__line">
-              <span class="source__outlet">{item.source.outlet?.name}</span>{' '}
+          <li class="note">
+            <p class="note__outlet">
+              {item.source.outlet?.name}{' '}
               <span class="meta">
-                {sourceTypeLabel(item.source.type)}, {languageLabel(item.source.language).toLowerCase()}
+                – {sourceTypeLabel(item.source.type).toLowerCase()}, {languageLabel(item.source.language).toLowerCase()}
               </span>
             </p>
-            {item.comment && <p class="source__comment">{item.comment}</p>}
+            {item.comment && <p class="note__text">{item.comment}</p>}
           </li>
         ))
       }
-    </ul>
-  </div>
-  <a class="more" href={href} data-pop={bundle.slug}>Læs hele opslaget</a>
+    </ol>
+  </aside>
 </article>

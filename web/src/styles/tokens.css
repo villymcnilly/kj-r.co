@@ -2,59 +2,71 @@
  * Designtokens – hele sitets udtryk samlet ét sted.
  * Et ugetema (styles/themes/*.css) må overskrive dem under [data-style="…"].
  *
- * Lys tilstand er standard. Mørk tilstand slås kun til, når læseren vælger den
- * (data-mode="dark" på <html>), så siden aldrig bliver mørk uden grund.
+ * Lys tilstand er standard. Mørk tilstand (»blå time«) slås kun til, når læseren
+ * vælger den (data-mode="dark" på <html>).
  *
- * Layout: en tæt, teksttung nyhedsside – tre spalter med tynde linjer,
- * forsidehistorien i midten, alt andet underordnet den.
+ * Udtryk: en læsende, tvivlende avis. Lyset fra en Hammershøi-stue, tågen over
+ * Øresund i den blå time. Forsiden åbner i et diset farvefelt drevet af ugens farve;
+ * resten er rolig tekst med kursiv, marginnoter og breve.
  */
 :root {
   color-scheme: light;
 
   /* Farver */
-  --issue-color: #285e6b; /* »ugens farve« – sættes pr. nummer fra Sanity */
-  --paper: #fcf8ee;
-  --paper-raised: #f5efe1;
-  --ink: #1d1b18;
-  --ink-2: #4a4741;
-  --ink-3: #7b766d;
-  --rule: #ddd5c4;
-  --rule-strong: #1d1b18;
+  --issue-color: #3f4f8c; /* »ugens farve« – sættes pr. nummer fra Sanity */
+  --paper: #f5f2ec;
+  --paper-raised: #ece7df;
+  --ink: #1d1c24;
+  --ink-2: #4c4a55;
+  --ink-3: #7d7a84;
+  --rule: #dad4cb;
+  --rule-strong: #1d1c24;
   --accent: var(--issue-color);
 
+  /* Forsidens dis – tre lys, der blandes. Det første følger ugens farve. */
+  --mist-1: color-mix(in srgb, var(--issue-color) 55%, var(--paper));
+  --mist-2: #f0bf9a; /* aftenlys */
+  --mist-3: #a9c6c0; /* hav og lav */
+  --grain-opacity: 0.16;
+
   /* Skrift – alt er serif */
-  --font-display: 'Gloock', 'Iowan Old Style', Georgia, serif;
-  --font-text: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-text: 'Newsreader', 'Iowan Old Style', Georgia, serif;
 
-  /* Typografisk skala – seks trin, ikke flere */
-  --size-meta: 0.75rem;
-  --size-small: 0.9rem;
-  --size-body: 1.0625rem;
-  --size-h3: clamp(1.3rem, 1.15rem + 0.5vw, 1.55rem);
-  --size-h2: clamp(1.75rem, 1.35rem + 1.4vw, 2.5rem);
-  --size-h1: clamp(2.3rem, 1.5rem + 3vw, 3.9rem);
-  --size-brand: clamp(2rem, 1.2rem + 3.6vw, 4.25rem);
+  /* Typografisk skala */
+  --size-meta: 0.78rem;
+  --size-small: 0.94rem;
+  --size-body: 1.1rem;
+  --size-h3: clamp(1.45rem, 1.25rem + 0.7vw, 1.8rem);
+  --size-h2: clamp(2rem, 1.5rem + 1.8vw, 3rem);
+  --size-h1: clamp(2.7rem, 1.7rem + 3.8vw, 5rem);
+  --size-cover: clamp(3.6rem, 1.8rem + 8vw, 9.5rem);
+  --size-brand: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem);
 
-  --leading-tight: 1.06;
-  --leading-text: 1.55;
-  --tracking-label: 0.07em;
+  --leading-tight: 1;
+  --leading-text: 1.58;
+  --tracking-label: 0.12em;
 
   /* Rum */
-  --gutter: clamp(16px, 3.5vw, 40px);
-  --column-gap: clamp(1.5rem, 2.6vw, 2.5rem);
-  --block-gap: clamp(2.25rem, 4vw, 3.5rem);
-  --measure: 38rem;
+  --gutter: clamp(16px, 4vw, 48px);
+  --column-gap: clamp(1.5rem, 3vw, 3rem);
+  --block-gap: clamp(3rem, 6vw, 5.5rem);
+  --measure: 36rem;
   --page-max: 1240px;
 }
 
 :root[data-mode='dark'] {
   color-scheme: dark;
-  --paper: #171614;
-  --paper-raised: #201f1c;
-  --ink: #ece7dc;
-  --ink-2: #bdb7ab;
-  --ink-3: #8c867b;
-  --rule: #34322d;
-  --rule-strong: #ece7dc;
-  --accent: color-mix(in srgb, var(--issue-color) 55%, white);
+  --paper: #12131a;
+  --paper-raised: #1b1d26;
+  --ink: #ece9f0;
+  --ink-2: #bcb8c6;
+  --ink-3: #8a8796;
+  --rule: #2d2f3b;
+  --rule-strong: #ece9f0;
+  --accent: color-mix(in srgb, var(--issue-color) 50%, white);
+  --mist-1: color-mix(in srgb, var(--issue-color) 55%, var(--paper));
+  --mist-2: #4a3434;
+  --mist-3: #1f3a3c;
+  --grain-opacity: 0.1;
 }

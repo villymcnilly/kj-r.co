@@ -13,7 +13,7 @@ export const bundleProjection = `{
 }`
 
 export const issueByNumber = `*[_type == "issue" && number == $number][0]{
-  number, date, title, leader, reflection, artDirection, layoutVersion, access, seo, isDummy,
+  number, date, title, openQuestion, leader, reflection, artDirection, layoutVersion, access, seo, isDummy,
   "lead": lead->${bundleProjection},
   "side": side[]->${bundleProjection},
   "discourse": discourse->${bundleProjection},

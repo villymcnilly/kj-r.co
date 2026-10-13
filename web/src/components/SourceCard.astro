@@ -15,9 +15,9 @@ const s = item.source
 
 <section class="card" id={`kilde-${s._id}`}>
   <div class="card__head">
-    {item.label && <p class="label label--accent">Set fra {item.label}</p>}
+    {item.label && <p class="kicker">Fra {item.label}</p>}
     <p class="card__facts">
-      <span class="source__outlet">{s.outlet?.name}</span>
+      <span class="card__outlet">{s.outlet?.name}</span>
       <span>{sourceTypeLabel(s.type)}</span>
       <span>{languageLabel(s.language)}</span>
       <time datetime={s.publishedAt}>{formatDate(s.publishedAt)}</time>
@@ -48,8 +48,8 @@ const s = item.source
   }
   {
     item.comment && (
-      <div class="card__section card__section--comment">
-        <p class="label label--accent">Kommentar</p>
+      <div class="card__comment">
+        <p class="label">Min kommentar</p>
         <p>{item.comment}</p>
       </div>
     )

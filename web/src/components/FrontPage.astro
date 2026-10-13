@@ -1,7 +1,7 @@
 ---
 /** Ugens forside. Strukturen er fast – temaet bestemmer udtrykket. */
 import {placedBundles} from '../lib/content.ts'
-import {typeset} from '../lib/format.ts'
+import {formatDateLong, isoWeek, typeset} from '../lib/format.ts'
 import {toHtml, toPlain} from '../lib/richText.ts'
 import type {Issue} from '../lib/types.ts'
 import Layout from '../layouts/Layout.astro'
@@ -20,7 +20,7 @@ interface Props {
 const {issue} = Astro.props
 const n = issue.number
 const title = issue.title || issue.lead.headline
-const description = issue.seo?.description || toPlain(issue.leader) || issue.lead.dek
+const description = issue.openQuestion || issue.seo?.description || toPlain(issue.leader) || issue.lead.dek
 ---
 
 <Layout
@@ -32,38 +32,34 @@ const description = issue.seo?.description || toPlain(issue.leader) || issue.lea
 >
   <div class="page">
     {issue.isDummy && <p class="dummy-note">Eksempelnummer – medier, forfattere og artikler er opdigtede</p>}
-    <Masthead number={n} date={issue.date} />
+    <Masthead />
+
+    <section class="cover" aria-labelledby="forside-titel">
+      <div class="cover__inner">
+        <p class="cover__meta">
+          <span>Nr. {n}</span>
+          <span>Uge {isoWeek(issue.date)}</span>
+          <span><time datetime={issue.date}>{formatDateLong(issue.date)}</time></span>
+        </p>
+        <h1 class="cover__title" id="forside-titel" set:html={typeset(title)} />
+        {issue.openQuestion && <p class="cover__question">{issue.openQuestion}</p>}
+        {issue.leader?.length ? <div class="cover__leader" set:html={toHtml(issue.leader)} /> : null}
+      </div>
+    </section>
 
     <main>
-      <div class="front">
-        <section class="front__leader leader" aria-labelledby="forside-titel">
-          <p class="label label--accent">Leder</p>
-          <h1 class="leader__title" id="forside-titel" set:html={typeset(title)} />
-          {issue.leader?.length ? <div class="leader__text" set:html={toHtml(issue.leader)} /> : null}
-        </section>
+      <Lead bundle={issue.lead} issueNumber={n} />
 
-        <div class="front__lead">
-          <Lead bundle={issue.lead} issueNumber={n} />
-        </div>
-
-        {
-          issue.side?.length ? (
-            <div class="front__side side">
-              {issue.side.map((b) => (
-                <Story bundle={b} issueNumber={n} />
-              ))}
-            </div>
-          ) : null
-        }
-
-        {
-          issue.briefs?.length ? (
-            <div class="front__briefs">
-              <Briefs bundles={issue.briefs} issueNumber={n} />
-            </div>
-          ) : null
-        }
-      </div>
+      {
+        issue.side?.length || issue.briefs?.length ? (
+          <div class="secondary">
+            {issue.side?.map((b) => (
+              <Story bundle={b} issueNumber={n} />
+            ))}
+            {issue.briefs?.length ? <Briefs bundles={issue.briefs} issueNumber={n} /> : null}
+          </div>
+        ) : null
+      }
 
       {issue.discourse && <Discourse bundle={issue.discourse} issueNumber={n} />}
 
@@ -72,7 +68,7 @@ const description = issue.seo?.description || toPlain(issue.leader) || issue.lea
           <div class="closing">
             {issue.reflection?.length ? (
               <section class="reflection" aria-labelledby="refleksion">
-                <h2 class="label label--accent" id="refleksion">
+                <h2 class="kicker" id="refleksion">
                   Refleksion
                 </h2>
                 <div class="prose" set:html={toHtml(issue.reflection)} />

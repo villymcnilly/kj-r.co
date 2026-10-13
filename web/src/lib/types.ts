@@ -54,6 +54,7 @@ export interface Issue {
   number: number
   date: string
   title?: string
+  openQuestion?: string
   leader?: PortableText
   lead: Bundle
   side?: Bundle[]

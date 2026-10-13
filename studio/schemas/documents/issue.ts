@@ -84,6 +84,14 @@ export const issue = defineType({
       validation: (rule) => rule.max(limits.headline),
     }),
     defineField({
+      name: 'openQuestion',
+      title: 'Ugens åbne spørgsmål',
+      type: 'string',
+      group: 'page',
+      description: 'Valgfrit. Ét spørgsmål, du ikke kender svaret på. Står stort under titlen på forsiden.',
+      validation: (rule) => rule.max(140),
+    }),
+    defineField({
       name: 'leader',
       title: 'Leder',
       type: 'shortText',

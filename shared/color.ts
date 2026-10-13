@@ -23,4 +23,4 @@ export const contrast = (a: string, b: string): number | null => {
 }
 
 /** Papir- og nattefarver, som ugens farve testes imod. Holdes i takt med tokens.css. */
-export const paper = {light: '#fcf8ee', dark: '#171614'} as const
+export const paper = {light: '#f5f2ec', dark: '#12131a'} as const

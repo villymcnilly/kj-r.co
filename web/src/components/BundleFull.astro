@@ -14,7 +14,7 @@ const Heading = headingLevel === 1 ? 'h1' : 'h2'
 ---
 
 <article class="article">
-  {bundle.kicker && <p class="label label--accent">{bundle.kicker}</p>}
+  {bundle.kicker && <p class="kicker">{bundle.kicker}</p>}
   <Heading class="article__headline" set:html={typeset(bundle.headline)} />
   {bundle.dek && <p class="article__dek">{bundle.dek}</p>}
   {bundle.body?.length ? <div class="prose" set:html={toHtml(bundle.body)} /> : null}

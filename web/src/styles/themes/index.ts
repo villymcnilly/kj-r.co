@@ -9,7 +9,7 @@ export interface Theme {
   fonts: string[]
 }
 
-const baseFonts = ['Gloock', 'Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700']
+const baseFonts = ['Instrument+Serif:ital@0;1', 'Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700']
 
 export const themes: Record<string, Theme> = {
   standard: {name: 'Standard', fonts: baseFonts},

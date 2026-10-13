@@ -1,5 +1,6 @@
 ---
 import {bundlePath} from '../lib/content.ts'
+import {typeset} from '../lib/format.ts'
 import type {Bundle} from '../lib/types.ts'
 
 interface Props {
@@ -10,15 +11,13 @@ const {bundles, issueNumber} = Astro.props
 ---
 
 <section class="briefs" aria-labelledby="kort-nyt">
-  <h2 class="briefs__head label" id="kort-nyt">Kort nyt</h2>
+  <h2 class="label" id="kort-nyt">Også set i ugen</h2>
   <ul>
     {
       bundles.map((b) => (
         <li class="brief" id={`opslag-${b.slug}`}>
           <h3 class="brief__headline">
-            <a href={bundlePath(issueNumber, b.slug)} data-pop={b.slug}>
-              {b.headline}
-            </a>
+            <a href={bundlePath(issueNumber, b.slug)} data-pop={b.slug} set:html={typeset(b.headline)} />
           </h3>
           {b.items[0] && <p class="meta">{b.items[0].source.outlet?.name}</p>}
         </li>
