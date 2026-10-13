@@ -18,5 +18,5 @@ const outlets = [...new Set(bundle.items.map((i) => i.source.outlet?.name).filte
     <a href={bundlePath(issueNumber, bundle.slug)} data-pop={bundle.slug} set:html={typeset(bundle.headline)} />
   </h3>
   {bundle.dek && <p class="story__dek">{bundle.dek}</p>}
-  <p class="meta">Læst hos {outlets.join(' og ')}</p>
+  <p class="meta">Jeg læste {outlets.join(' og ')}</p>
 </article>

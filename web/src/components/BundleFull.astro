@@ -24,7 +24,7 @@ const Heading = headingLevel === 1 ? 'h1' : 'h2'
   {
     bundle.dossiers?.length ? (
       <p class="article__dossiers">
-        <span class="label">Dossierer</span>
+        <span class="label">Hører til</span>
         {bundle.dossiers.map((d) => (
           <a href={`/dossier/${d.slug}/`}>{d.name}</a>
         ))}

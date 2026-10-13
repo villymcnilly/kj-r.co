@@ -1,7 +1,8 @@
 ---
 /** Ugens forside. Strukturen er fast – temaet bestemmer udtrykket. */
+import {brand} from '../../../brand.config.ts'
 import {placedBundles} from '../lib/content.ts'
-import {formatDateLong, isoWeek, typeset} from '../lib/format.ts'
+import {formatDateLong, isoWeek, readingStat, typeset} from '../lib/format.ts'
 import {toHtml, toPlain} from '../lib/richText.ts'
 import type {Issue} from '../lib/types.ts'
 import Layout from '../layouts/Layout.astro'
@@ -20,30 +21,32 @@ interface Props {
 const {issue} = Astro.props
 const n = issue.number
 const title = issue.title || issue.lead.headline
+const week = isoWeek(issue.date)
+const bundles = placedBundles(issue)
 const description = issue.openQuestion || issue.seo?.description || toPlain(issue.leader) || issue.lead.dek
 ---
 
 <Layout
-  title={issue.seo?.title || `Nr. ${n}: ${title}`}
+  title={issue.seo?.title || `Uge ${week}: ${title}`}
   description={description}
   theme={issue.artDirection?.theme}
   issueColor={issue.artDirection?.color}
   type="article"
 >
   <div class="page">
-    {issue.isDummy && <p class="dummy-note">Eksempelnummer – medier, forfattere og artikler er opdigtede</p>}
+    {issue.isDummy && <p class="dummy-note">Eksempel – medier, forfattere og artikler er opdigtede</p>}
     <Masthead />
 
     <section class="cover" aria-labelledby="forside-titel">
       <div class="cover__inner">
         <p class="cover__meta">
-          <span>Nr. {n}</span>
-          <span>Uge {isoWeek(issue.date)}</span>
-          <span><time datetime={issue.date}>{formatDateLong(issue.date)}</time></span>
+          <span>Uge {week}</span>
+          <span>{brand.city}, <time datetime={issue.date}>{formatDateLong(issue.date)}</time></span>
         </p>
         <h1 class="cover__title" id="forside-titel" set:html={typeset(title)} />
         {issue.openQuestion && <p class="cover__question">{issue.openQuestion}</p>}
         {issue.leader?.length ? <div class="cover__leader" set:html={toHtml(issue.leader)} /> : null}
+        <p class="cover__stat">{readingStat(bundles)}</p>
       </div>
     </section>
 
@@ -69,9 +72,10 @@ const description = issue.openQuestion || issue.seo?.description || toPlain(issu
             {issue.reflection?.length ? (
               <section class="reflection" aria-labelledby="refleksion">
                 <h2 class="kicker" id="refleksion">
-                  Refleksion
+                  Til sidst
                 </h2>
                 <div class="prose" set:html={toHtml(issue.reflection)} />
+                <p class="signoff">– {brand.author}</p>
               </section>
             ) : null}
             {issue.video && (
@@ -88,7 +92,7 @@ const description = issue.openQuestion || issue.seo?.description || toPlain(issu
   </div>
 
   {
-    placedBundles(issue).map((b) => (
+    bundles.map((b) => (
       <dialog class="popout" id={`pop-${b.slug}`} aria-label={b.headline}>
         <div class="popout__bar">
           <button class="popout__close" type="button">

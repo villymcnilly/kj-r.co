@@ -19,10 +19,10 @@ const href = bundlePath(issueNumber, bundle.slug)
     <h2 class="lead__headline"><a href={href} data-pop={bundle.slug} set:html={typeset(bundle.headline)} /></h2>
     {bundle.dek && <p class="lead__dek">{bundle.dek}</p>}
     {bundle.body?.length ? <div class="lead__body prose" set:html={toHtml(bundle.body)} /> : null}
-    <a class="more" href={href} data-pop={bundle.slug}>Læs hele opslaget</a>
+    <a class="more" href={href} data-pop={bundle.slug}>Læs mine noter om det</a>
   </div>
   <aside class="notes" aria-label="Kilderne">
-    <p class="label">I margenen</p>
+    <p class="label">Mine noter</p>
     <ol>
       {
         bundle.items.map((item) => (

@@ -93,10 +93,10 @@ export const issue = defineType({
     }),
     defineField({
       name: 'leader',
-      title: 'Leder',
+      title: 'Indledning',
       type: 'shortText',
       group: 'page',
-      description: 'Din åbning – et kort afsnit om ugen.',
+      description: 'Din åbning – et kort afsnit om, hvad du har læst i ugen.',
     }),
     defineField({
       name: 'lead',

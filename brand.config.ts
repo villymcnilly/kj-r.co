@@ -3,7 +3,9 @@
  */
 export const brand = {
   name: 'ARBEJDSTITEL',
-  tagline: 'Ugens geopolitik – set fra København',
+  tagline: 'Det jeg har læst i ugen – noter fra København',
+  /** Underskriften under refleksionen og i sidefoden. */
+  author: 'Dit navn',
   city: 'København',
   locale: 'da-DK',
   lang: 'da',

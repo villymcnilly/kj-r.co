@@ -64,7 +64,7 @@ const dossiers = [
     name: 'EU-forsvar',
     slug: {_type: 'slug', current: 'eu-forsvar'},
     intro:
-      'Fra forsvarsforbehold til fælles indkøb. Vi følger, hvordan Bruxelles forsøger at blive en sikkerhedspolitisk aktør – og hvem der skal betale.',
+      'Fra forsvarsforbehold til fælles indkøb. Jeg følger, hvordan Bruxelles forsøger at blive en sikkerhedspolitisk aktør – og hvem der skal betale.',
     ...dummy,
   },
 ]
@@ -257,7 +257,7 @@ const bundles = [
     dek: 'En amerikansk analyse gør Danmark til en fodnote. En kommentar fra Nuuk minder om, hvem der bor i fodnoten.',
     body: [
       p(
-        'Ugens to vigtigste tekster om Grønland blev skrevet 5.000 kilometer fra hinanden – og de handler om det samme: hvem der har ret til at fortælle historien om øen.',
+        'De to tekster om Grønland, jeg ikke kunne slippe i denne uge, blev skrevet 5.000 kilometer fra hinanden. Jeg læste dem samme aften, og de handler om det samme: hvem der har ret til at fortælle historien om øen.',
       ),
     ],
     items: [
@@ -382,7 +382,7 @@ const issues = [
     openQuestion: 'Hvem har egentlig ret til at fortælle historien om en ø?',
     leader: [
       p(
-        '*Dette er et eksempelnummer med opdigtet indhold.* Ugens tråd er fodnoter: hvem der bliver gjort til en, og hvem der skriver dem. Grønland blev beskrevet fra fire hovedstæder – og sjældnest fra sin egen.',
+        '*Dette er et eksempel med opdigtet indhold.* Jeg har brugt ugen på at læse om fodnoter: hvem der bliver gjort til en, og hvem der skriver dem. Grønland blev beskrevet fra fire hovedstæder – og sjældnest fra sin egen.',
       ),
     ],
     lead: ref('dummy-bundle-groenland'),
@@ -391,14 +391,14 @@ const issues = [
     briefs: [refItem('dummy-bundle-kort-1'), refItem('dummy-bundle-kort-2')],
     reflection: [
       p(
-        'Det slående ved ugens læsning er ikke uenigheden, men symmetrien. Washington og Moskva beskriver Grønland som et stykke terræn i et spil mellem stormagter. Bruxelles beskriver det som en grænse, Europa har glemt at forsvare. Alle tre taler om øen – ingen af dem taler med den.',
+        'Det, der slog mig i ugens læsning, var ikke uenigheden, men symmetrien. Washington og Moskva beskriver Grønland som et stykke terræn i et spil mellem stormagter. Bruxelles beskriver det som en grænse, Europa har glemt at forsvare. Alle tre taler om øen – ingen af dem taler med den.',
       ),
-      p('Hvad det betyder for os', 'h3'),
+      p('Hvor det efterlader mig', 'h3'),
       p(
-        'For en dansk læser er fristelsen at tage parti for den fortælling, der giver København mest plads. Men den mest interessante tekst i ugens bunke er den korteste: kommentaren fra Nuuk, som minder om, at fodnoten har indbyggere.',
+        'Fristelsen er at tage parti for den fortælling, der giver København mest plads. Men den tekst, jeg bliver ved med at vende tilbage til, er den korteste: kommentaren fra Nuuk, som minder om, at fodnoten har indbyggere. Jeg ved ikke helt, hvad jeg skal stille op med det endnu.',
       ),
       p(
-        'Næste uge følger vi op på Kommissionens køreplan – og på om nogen i Folketinget har læst bilag B.',
+        'Næste uge vil jeg læse Kommissionens køreplan til ende – og prøve at finde ud af, om nogen i Folketinget har læst bilag B.',
       ),
     ],
     video: ref('dummy-video-1'),
@@ -424,9 +424,9 @@ const settings = [
     about: [
       p('*Eksempeltekst – skriv din egen i Studio under Indstillinger.*'),
       p(
-        'Et ugentligt overblik over geopolitik, set fra København. Hver uge samler vi det, vi har læst: kilderne, en kort dansk præcis af hver, og hvorfor de betyder noget for os.',
+        'Hver uge læser jeg mere om verden, end jeg kan nå at tale med nogen om. Det her er mine noter: de tekster, jeg ikke kunne slippe, hvad der står i dem, og hvorfor jeg tror, de betyder noget herfra.',
       ),
-      p('Vi læser på mange sprog, så du ikke behøver. Og vi skriver, hvordan den samme historie bliver fortalt forskellige steder.'),
+      p('Jeg læser på mange sprog, og jeg er mest interesseret i, hvordan den samme historie bliver fortalt forskellige steder. Jeg tager tit fejl. Skriv endelig, når jeg gør.'),
     ],
   },
 ]

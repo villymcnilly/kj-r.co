@@ -6,4 +6,4 @@ const [latest] = await getIssueNumbers()
 const issue = latest ? await getIssue(latest) : null
 ---
 
-{issue ? <FrontPage issue={issue} /> : <p>Ingen numre endnu.</p>}
+{issue ? <FrontPage issue={issue} /> : <p>Intet skrevet endnu.</p>}

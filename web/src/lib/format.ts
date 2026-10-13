@@ -36,6 +36,15 @@ export const countSources = (n: number) => `${words[n] ?? n} ${n === 1 ? 'kilde'
 export const youtubeId = (url?: string) =>
   url?.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/)?.[1] ?? null
 
+/** »Seks tekster på fem sprog i denne uge.« */
+export const readingStat = (bundles: {items: {source: {_id: string; language: string}}[]}[]) => {
+  const sources = new Map(bundles.flatMap((b) => b.items.map((i) => [i.source._id, i.source.language] as const)))
+  const langs = new Set(sources.values()).size
+  const n = (k: number) => words[k] ?? String(k)
+  const first = n(sources.size)
+  return `${first[0].toUpperCase()}${first.slice(1)} ${sources.size === 1 ? 'tekst' : 'tekster'} på ${n(langs)} sprog i denne uge.`
+}
+
 /** ISO-ugenummer – »uge 41«. */
 export const isoWeek = (iso: string) => {
   const d = new Date(`${iso.slice(0, 10)}T12:00:00Z`)

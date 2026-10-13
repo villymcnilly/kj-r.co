@@ -38,10 +38,10 @@
   --size-small: 0.94rem;
   --size-body: 1.1rem;
   --size-h3: clamp(1.45rem, 1.25rem + 0.7vw, 1.8rem);
-  --size-h2: clamp(2rem, 1.5rem + 1.8vw, 3rem);
-  --size-h1: clamp(2.7rem, 1.7rem + 3.8vw, 5rem);
-  --size-cover: clamp(3.6rem, 1.8rem + 8vw, 9.5rem);
-  --size-brand: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem);
+  --size-h2: clamp(1.8rem, 1.4rem + 1.4vw, 2.6rem);
+  --size-h1: clamp(2.4rem, 1.6rem + 3vw, 4.1rem);
+  --size-cover: clamp(3.2rem, 1.8rem + 6.4vw, 7.6rem);
+  --size-brand: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
 
   --leading-tight: 1;
   --leading-text: 1.58;

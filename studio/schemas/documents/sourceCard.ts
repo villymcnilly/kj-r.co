@@ -75,11 +75,11 @@ export const sourceCard = defineType({
     }),
     defineField({
       name: 'whyItMatters',
-      title: 'Hvorfor det betyder noget for os',
+      title: 'Hvorfor jeg tager den med',
       type: 'text',
       rows: 3,
       group: 'text',
-      description: `Den danske/nordiske vinkel. Max ${limits.whyItMatters} tegn.`,
+      description: `Hvorfor er den værd at læse – set herfra? Max ${limits.whyItMatters} tegn.`,
       validation: (rule) => rule.required().max(limits.whyItMatters),
     }),
     defineField({

@@ -34,7 +34,7 @@ const {issue, bundle} = Astro.props as {issue: Issue; bundle: Bundle}
     <Masthead number={issue.number} />
     <main class="standalone">
       <div class="article">
-        <a class="back" href={issuePath(issue.number)}>Til forsiden af nr. {issue.number}</a>
+        <a class="back" href={issuePath(issue.number)}>Tilbage til ugens noter</a>
         <BundleFull bundle={bundle} headingLevel={1} />
       </div>
     </main>
