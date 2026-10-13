@@ -1,0 +1,46 @@
+---
+/** Det udfoldede opslag – bruges både i pop-out og på opslagets egen side. */
+import {toHtml} from '../lib/richText.ts'
+import type {Bundle} from '../lib/types.ts'
+import SourceLabel from './SourceLabel.astro'
+
+interface Props {
+  bundle: Bundle
+  headingLevel?: 1 | 2
+}
+const {bundle, headingLevel = 2} = Astro.props
+const Heading = headingLevel === 1 ? 'h1' : 'h2'
+---
+
+<article class="bundle-full">
+  {bundle.kicker && <p class="kicker">{bundle.kicker}</p>}
+  <Heading class="bundle-full__headline">{bundle.headline}</Heading>
+  {bundle.dek && <p class="bundle-full__dek">{bundle.dek}</p>}
+  {bundle.body?.length ? <div class="prose" set:html={toHtml(bundle.body)} /> : null}
+  <ol class="bundle-full__items">
+    {
+      bundle.items.map((item) => (
+        <li class="bundle-full__item">
+          {item.label && <p class="item__label">{item.label}</p>}
+          <SourceLabel source={item.source} variant="full" />
+          {item.comment && (
+            <div class="curator">
+              <p class="item__label">Kommentar</p>
+              <p>{item.comment}</p>
+            </div>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+  {
+    bundle.dossiers?.length ? (
+      <p class="bundle-full__dossiers">
+        <span class="section-label">Dossierer</span>
+        {bundle.dossiers.map((d) => (
+          <a href={`/dossier/${d.slug}/`}>{d.name}</a>
+        ))}
+      </p>
+    ) : null
+  }
+</article>

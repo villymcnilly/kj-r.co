@@ -8,3 +8,4 @@ dist/
 !.env.example
 seed/seed.ndjson
 .DS_Store
+dist-sketch/

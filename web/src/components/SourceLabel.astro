@@ -1,0 +1,45 @@
+---
+/**
+ * Værkskiltet. `compact` på forsiden: medie, titel, type · sprog · dato.
+ * `full` i det udfoldede opslag: plus forfatter, præcis, hvorfor og citat.
+ */
+import {formatDate, formatDateShort, languageLabel, languageShort, sourceTypeLabel} from '../lib/format.ts'
+import type {SourceCard} from '../lib/types.ts'
+
+interface Props {
+  source: SourceCard
+  variant?: 'compact' | 'full'
+}
+const {source, variant = 'compact'} = Astro.props
+const full = variant === 'full'
+---
+
+<figure class:list={['label', {'label--full': full}]} id={full ? `kilde-${source._id}` : undefined}>
+  <p class="label__outlet">{source.outlet?.name}</p>
+  <p class="label__title">
+    <a href={source.url} lang={source.language} rel="noopener" target="_blank">{source.title}</a>
+  </p>
+  {full && source.author && <p class="label__byline">{source.author}</p>}
+  <p class="label__meta">
+    <span class="badge">{sourceTypeLabel(source.type)}</span>
+    <abbr class="lang" title={languageLabel(source.language)}>{languageShort(source.language)}</abbr>
+    <time datetime={source.publishedAt}>{full ? formatDate(source.publishedAt) : formatDateShort(source.publishedAt)}</time>
+  </p>
+  {
+    full && (
+      <>
+        <p class="label__precis">{source.precis}</p>
+        <p class="label__why">
+          <strong>Hvorfor det betyder noget for os</strong>
+          {source.whyItMatters}
+        </p>
+        {source.quote && (
+          <blockquote class="label__quote" lang={source.language}>
+            <p>»{source.quote}«</p>
+          </blockquote>
+        )}
+        {source.quote && source.quoteTranslation && <p class="label__translation">»{source.quoteTranslation}«</p>}
+      </>
+    )
+  }
+</figure>

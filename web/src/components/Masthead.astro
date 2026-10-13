@@ -1,0 +1,34 @@
+---
+import {brand} from '../../../brand.config.ts'
+import {formatDateLong} from '../lib/format.ts'
+
+interface Props {
+  number?: number
+  date?: string
+}
+const {number, date} = Astro.props
+---
+
+<header class="masthead">
+  <div class="masthead__bar">
+    <nav class="masthead__nav" aria-label="Hovedmenu">
+      <a href="/arkiv/">Tidligere forsider</a>
+      <a href="/dossier/">Dossierer</a>
+      <a href="/om/">Om</a>
+    </nav>
+    <button class="mode-toggle" type="button" hidden>Mørk tilstand</button>
+  </div>
+  <a class="masthead__brand" href="/">{brand.name}</a>
+  <p class="masthead__tagline">{brand.tagline}</p>
+  {
+    number && date && (
+      <p class="masthead__dateline">
+        <span>Nr. {number}</span>
+        <span>{brand.city}</span>
+        <span>
+          <time datetime={date}>{formatDateLong(date)}</time>
+        </span>
+      </p>
+    )
+  }
+</header>

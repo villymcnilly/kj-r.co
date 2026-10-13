@@ -1,0 +1,38 @@
+---
+/** Diskursen: samme historie, fortalt forskellige steder. */
+import {bundlePath} from '../lib/content.ts'
+import type {Bundle} from '../lib/types.ts'
+
+interface Props {
+  bundle: Bundle
+  issueNumber: number
+}
+const {bundle, issueNumber} = Astro.props
+const href = bundlePath(issueNumber, bundle.slug)
+---
+
+<section class="discourse" id={`opslag-${bundle.slug}`} aria-labelledby={`h-${bundle.slug}`}>
+  <div class="discourse__head">
+    <p class="section-label">Diskursen</p>
+    <h2 class="discourse__headline" id={`h-${bundle.slug}`}>
+      <a href={href} data-pop={bundle.slug}>{bundle.headline}</a>
+    </h2>
+    {bundle.dek && <p class="bundle__dek">{bundle.dek}</p>}
+  </div>
+  <ol class="places">
+    {
+      bundle.items.map((item) => (
+        <li class="place">
+          <p class="place__name">{item.label}</p>
+          {item.comment && <p class="place__comment">{item.comment}</p>}
+          <p class="place__source">
+            <a href={item.source.url} rel="noopener" target="_blank">
+              {item.source.outlet?.name}
+            </a>
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+  <a class="bundle__more" href={href} data-pop={bundle.slug}>Se kilderne bag de fire fortællinger</a>
+</section>

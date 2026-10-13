@@ -1,0 +1,9 @@
+---
+import FrontPage from '../components/FrontPage.astro'
+import {getIssue, getIssueNumbers} from '../lib/content.ts'
+
+const [latest] = await getIssueNumbers()
+const issue = latest ? await getIssue(latest) : null
+---
+
+{issue ? <FrontPage issue={issue} /> : <p>Ingen numre endnu.</p>}

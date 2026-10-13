@@ -1,0 +1,771 @@
+/*
+ * Base – struktur, læsbarhed og mobil. Alt visuelt går gennem tokens,
+ * så temaerne kan ændre udtrykket uden at røre denne fil.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  line-height: var(--leading-text);
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+a:hover {
+  color: var(--accent);
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: var(--headline-weight);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+  hyphens: manual;
+  margin: 0;
+}
+p {
+  margin: 0;
+}
+p,
+li {
+  text-wrap: pretty;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ─── Side ─────────────────────────────────────────────────────────────── */
+
+.page {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: 0 4rem;
+}
+
+/* Eksempelmarkering */
+.dummy-note {
+  font-family: var(--font-label);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--ink-faint);
+  padding-block: 0.6rem;
+  border-bottom: var(--column-rule);
+}
+
+/* ─── Avishoved ─────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: grid;
+  gap: 0.9rem;
+  padding-block: clamp(1.25rem, 3vw, 2.25rem) 1rem;
+  text-align: center;
+}
+.masthead__bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  font-family: var(--font-label);
+  font-size: var(--step--1);
+}
+.masthead__nav {
+  display: flex;
+  gap: 1.25rem;
+}
+.masthead__nav a {
+  text-decoration: none;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  font-size: var(--step--2);
+}
+.masthead__brand {
+  font-family: var(--font-display);
+  font-size: var(--step-5);
+  line-height: 1;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.masthead__tagline {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.masthead__dateline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.25rem;
+  font-family: var(--font-label);
+  font-size: var(--step--1);
+  font-variant-numeric: oldstyle-nums;
+  padding-block: 0.55rem;
+  border-block: var(--column-rule);
+}
+.masthead__dateline span + span::before {
+  content: '·';
+  margin-right: 1.25rem;
+  color: var(--ink-faint);
+}
+
+.mode-toggle {
+  font: inherit;
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0.25rem 0;
+  cursor: pointer;
+}
+.mode-toggle:hover {
+  color: var(--accent);
+}
+
+/* ─── Ugens forside: titel og leder ─────────────────────────────────────── */
+
+.cover {
+  display: grid;
+  gap: var(--gap-small) var(--gap);
+  padding-block: var(--gap);
+  border-bottom: var(--column-rule);
+}
+.cover__eyebrow,
+.kicker,
+.section-label {
+  font-family: var(--font-label);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+.cover__title {
+  font-size: var(--step-4);
+}
+.cover__leader {
+  max-width: var(--measure);
+  font-size: var(--step-1);
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.cover__art {
+  display: none;
+}
+
+/* ─── I korte træk ──────────────────────────────────────────────────────── */
+
+.digest {
+  padding-block: var(--gap-small);
+  border-bottom: var(--column-rule);
+}
+.digest ol {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  counter-reset: digest;
+}
+.digest li {
+  counter-increment: digest;
+  display: grid;
+  grid-template-columns: 1.4em 1fr;
+  font-size: var(--step--1);
+  line-height: 1.35;
+}
+.digest li::before {
+  content: counter(digest);
+  color: var(--accent);
+  font-variant-numeric: oldstyle-nums;
+}
+.digest a {
+  text-decoration: none;
+}
+.digest__kicker {
+  display: block;
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ─── Forsidens grid ────────────────────────────────────────────────────── */
+
+.front {
+  display: grid;
+  gap: var(--gap);
+  padding-block: var(--gap);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'lead' 'side' 'briefs' 'discourse' 'reflection' 'video';
+}
+.front > * {
+  min-width: 0;
+}
+.front__lead {
+  grid-area: lead;
+}
+.front__side {
+  grid-area: side;
+  display: grid;
+  gap: var(--gap);
+  align-content: start;
+}
+.front__briefs {
+  grid-area: briefs;
+}
+.front__discourse {
+  grid-area: discourse;
+}
+.front__reflection {
+  grid-area: reflection;
+}
+.front__video {
+  grid-area: video;
+}
+
+@media (min-width: 760px) {
+  .front {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'lead lead'
+      'side briefs'
+      'discourse discourse'
+      'reflection video';
+  }
+  .front__briefs,
+  .front__video {
+    border-left: var(--column-rule);
+    padding-left: var(--gap);
+  }
+}
+
+@media (min-width: 1080px) {
+  .front {
+    grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr) minmax(0, 0.95fr);
+    grid-template-areas:
+      'lead side briefs'
+      'discourse discourse discourse'
+      'reflection reflection video';
+  }
+  .front__side {
+    border-left: var(--column-rule);
+    padding-left: var(--gap);
+  }
+}
+
+/* Mobil: vandrette skillelinjer i stedet for spaltelinjer */
+@media (max-width: 759px) {
+  .front > * + * {
+    border-top: var(--column-rule);
+    padding-top: var(--gap);
+  }
+}
+
+/* ─── Opslag på forsiden ────────────────────────────────────────────────── */
+
+.bundle {
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
+}
+.bundle__headline a {
+  text-decoration: none;
+}
+.bundle--lead .bundle__headline {
+  font-size: var(--step-4);
+}
+.bundle--side .bundle__headline {
+  font-size: var(--step-2);
+}
+.bundle__dek {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: var(--step-1);
+  line-height: 1.4;
+}
+.bundle--side .bundle__dek {
+  font-size: var(--step-0);
+}
+.bundle__body {
+  max-width: var(--measure);
+}
+.bundle__items {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.1rem;
+}
+.bundle--lead .bundle__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1.1rem var(--gap);
+}
+.item {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+.item__label {
+  font-family: var(--font-label);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.item__comment {
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.bundle__more {
+  justify-self: start;
+  font-family: var(--font-label);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--accent);
+  text-decoration: none;
+}
+.bundle__more:hover {
+  text-decoration: underline;
+}
+
+/* Kort nyt */
+.briefs {
+  list-style: none;
+  margin: 0.8rem 0 0;
+  padding: 0;
+  display: grid;
+}
+.brief {
+  display: grid;
+  gap: 0.3rem;
+  padding-block: 0.9rem;
+  border-top: var(--column-rule);
+}
+.brief:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.brief__headline {
+  font-size: var(--step-1);
+}
+.brief__headline a {
+  text-decoration: none;
+}
+.brief__source {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+/* Diskursen */
+.discourse {
+  display: grid;
+  gap: var(--gap-small);
+  padding-block: var(--gap-small);
+  border-block: var(--rule-width) solid var(--rule-strong);
+}
+.discourse__head {
+  display: grid;
+  gap: 0.4rem;
+  max-width: 48rem;
+}
+.discourse__headline {
+  font-size: var(--step-3);
+}
+.discourse__headline a {
+  text-decoration: none;
+}
+.places {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.25rem var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+}
+.place {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+.place__name {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1;
+  color: var(--accent);
+}
+.place__comment {
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+.place__source {
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Refleksion */
+.prose {
+  max-width: var(--measure);
+  display: grid;
+  gap: 0.9em;
+}
+.prose h3 {
+  font-size: var(--step-1);
+  margin-top: 0.6em;
+}
+.prose blockquote {
+  margin: 0;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+}
+.prose ul,
+.prose ol {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.prose .sref {
+  text-decoration-style: dotted;
+}
+.reflection {
+  display: grid;
+  gap: 1rem;
+}
+.reflection .prose {
+  font-size: var(--step-0);
+}
+.reflection .prose > p:first-of-type::first-letter {
+  initial-letter: 3;
+  -webkit-initial-letter: 3;
+  font-family: var(--font-display);
+  color: var(--accent);
+  margin-right: 0.08em;
+}
+
+/* Video */
+.video {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+.video__poster {
+  position: relative;
+  display: grid;
+  place-items: end start;
+  aspect-ratio: 16 / 10;
+  min-height: 11rem;
+  max-width: 100%;
+  padding: 1rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  text-decoration: none;
+  overflow: hidden;
+}
+.video__poster:hover {
+  color: var(--on-accent);
+}
+.video__play {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+.video__play::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  translate: 3px 0;
+  width: 0;
+  height: 0;
+  border-block: 0.45rem solid transparent;
+  border-left: 0.72rem solid currentColor;
+}
+.video__poster-title {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  line-height: 1.15;
+}
+.video__meta {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.video iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+/* ─── Værkskiltet (kildekortet) ─────────────────────────────────────────── */
+
+.label {
+  margin: 0;
+  display: grid;
+  gap: 0.15rem;
+  align-content: start;
+}
+.label__outlet {
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--step--1);
+}
+.label__title {
+  font-style: italic;
+  font-size: var(--step--1);
+  line-height: 1.35;
+}
+.label__title a {
+  text-decoration-color: var(--rule);
+}
+.label__title a:hover {
+  text-decoration-color: currentColor;
+}
+.label__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.5rem;
+  font-family: var(--font-label);
+  font-size: var(--step--2);
+  color: var(--ink-faint);
+  font-variant-numeric: oldstyle-nums;
+}
+.badge {
+  font-family: var(--font-label);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  border: var(--rule-width) solid var(--rule-strong);
+  border-radius: var(--radius);
+  padding: 0.05rem 0.4rem 0;
+  line-height: 1.5;
+}
+.lang {
+  letter-spacing: var(--tracking-label);
+  text-decoration: none;
+  cursor: help;
+}
+
+/* Fuldt værkskilt i det udfoldede opslag */
+.label--full {
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem 1.25rem;
+  background: var(--panel);
+  border-radius: var(--radius);
+}
+.label--full .label__outlet {
+  font-size: var(--step-0);
+}
+.label--full .label__title {
+  font-size: var(--step-1);
+}
+.label__byline {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.label__precis {
+  margin-top: 0.6rem;
+  font-size: var(--step-0);
+}
+.label__why {
+  margin-top: 0.4rem;
+  padding-top: 0.6rem;
+  border-top: var(--column-rule);
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.label__why strong {
+  display: block;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+.label__quote {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  line-height: 1.3;
+  hyphens: manual;
+}
+.label__translation {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ─── Udfoldet opslag ───────────────────────────────────────────────────── */
+
+.bundle-full {
+  display: grid;
+  gap: 1rem;
+  max-width: 46rem;
+  margin-inline: auto;
+}
+.bundle-full__headline {
+  font-size: var(--step-4);
+}
+.bundle-full__dek {
+  font-size: var(--step-1);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.bundle-full__items {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 2rem;
+}
+.bundle-full__item {
+  display: grid;
+  gap: 0.75rem;
+}
+.curator {
+  display: grid;
+  gap: 0.25rem;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--accent);
+}
+.curator p:last-child {
+  font-size: var(--step-0);
+}
+.bundle-full__dossiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  padding-top: 1rem;
+  border-top: var(--column-rule);
+  font-size: var(--step--1);
+}
+
+/* Pop-out */
+.popout {
+  width: min(52rem, 100% - 2 * 16px);
+  max-height: min(92vh, 100% - 2rem);
+  margin: auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border: var(--rule-width) solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  overscroll-behavior: contain;
+}
+.popout::backdrop {
+  background: color-mix(in oklch, var(--ink) 55%, transparent);
+  backdrop-filter: blur(2px);
+}
+.popout[open] {
+  animation: pop-in 220ms ease-out;
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+.popout__close {
+  position: sticky;
+  top: 0;
+  float: right;
+  margin: -0.5rem -0.5rem 0 1rem;
+  font: inherit;
+  font-family: var(--font-label);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+}
+.popout__close:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Selvstændig opslagsside */
+.standalone {
+  padding-block: var(--gap);
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: var(--gap);
+  font-family: var(--font-label);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ─── Sidefod ───────────────────────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: var(--rule-width) solid var(--rule-strong);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

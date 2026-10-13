@@ -1,0 +1,60 @@
+/*
+ * Designtokens – standardværdier for hele sitet.
+ * Et tema (styles/themes/*.css) overskriver dem under [data-style="…"].
+ *
+ * Farver skrives som light-dark(lys, mørk), så hver token dækker begge tilstande.
+ * --issue-color sættes pr. nummer fra Sanity (»ugens farve«).
+ */
+:root {
+  color-scheme: light dark;
+
+  /* Farver */
+  --issue-color: #8a1c14;
+  --paper: light-dark(#fbfaf7, #141311);
+  --panel: light-dark(#f1eee8, #1c1a17);
+  --ink: light-dark(#191714, #ebe7df);
+  --ink-soft: light-dark(#47433d, #bdb7ad);
+  --ink-faint: light-dark(#6f6a62, #8f897f);
+  --rule: light-dark(#d8d3c9, #36332e);
+  --rule-strong: var(--ink);
+  /* Ugens farve – lysnes automatisk i mørk tilstand */
+  --accent: light-dark(var(--issue-color), color-mix(in oklch, var(--issue-color), white 48%));
+  --on-accent: light-dark(#ffffff, #141311);
+
+  /* Skrift – alle serif */
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-text: Georgia, 'Times New Roman', serif;
+  --font-label: var(--font-text);
+
+  /* Typografisk skala (flydende mellem mobil og desktop) */
+  --step--2: 0.72rem;
+  --step--1: 0.84rem;
+  --step-0: clamp(1.02rem, 0.98rem + 0.2vw, 1.12rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.45vw, 1.42rem);
+  --step-2: clamp(1.44rem, 1.25rem + 0.9vw, 1.95rem);
+  --step-3: clamp(1.8rem, 1.45rem + 1.6vw, 2.8rem);
+  --step-4: clamp(2.2rem, 1.6rem + 2.8vw, 4rem);
+  --step-5: clamp(2.8rem, 1.8rem + 4.6vw, 5.8rem);
+
+  --leading-tight: 1.08;
+  --leading-text: 1.55;
+  --tracking-label: 0.09em;
+  --headline-weight: 400;
+
+  /* Rum og linjer */
+  --gutter: clamp(16px, 4vw, 56px);
+  --gap: clamp(1.75rem, 3.2vw, 3.25rem);
+  --gap-small: clamp(0.75rem, 1.4vw, 1.1rem);
+  --measure: 64ch;
+  --page-max: 1320px;
+  --rule-width: 1px;
+  --column-rule: var(--rule-width) solid var(--rule);
+  --radius: 0;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}

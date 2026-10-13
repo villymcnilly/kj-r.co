@@ -1,0 +1,14 @@
+---
+import FrontPage from '../../../components/FrontPage.astro'
+import {getIssue, getIssueNumbers} from '../../../lib/content.ts'
+
+export async function getStaticPaths() {
+  const numbers = await getIssueNumbers()
+  return numbers.map((number) => ({params: {number: String(number)}}))
+}
+
+const issue = await getIssue(Number(Astro.params.number))
+if (!issue) return Astro.redirect('/')
+---
+
+<FrontPage issue={issue} />

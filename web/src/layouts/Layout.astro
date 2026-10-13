@@ -1,0 +1,135 @@
+---
+import {brand} from '../../../brand.config.ts'
+import {sketch} from '../lib/env.ts'
+import {fontsHref, resolveStyle, themeCss, themes} from '../styles/themes/index.ts'
+import '../styles/tokens.css'
+import '../styles/base.css'
+
+interface Props {
+  title?: string
+  description?: string
+  theme?: string
+  issueColor?: string
+  ogImage?: string
+  type?: 'website' | 'article'
+}
+
+const {title, description = brand.tagline, theme, issueColor, ogImage, type = 'website'} = Astro.props
+const style = resolveStyle(theme)
+const styles = sketch ? Object.keys(themes) : [style]
+const fullTitle = title ? `${title} – ${brand.name}` : `${brand.name} – ${brand.tagline}`
+const canonical = new URL(Astro.url.pathname, brand.url).href
+---
+
+<!doctype html>
+<html lang={brand.lang} data-style={style} style={issueColor ? `--issue-color: ${issueColor}` : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:site_name" content={brand.name} />
+    <meta property="og:locale" content="da_DK" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title ?? brand.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={new URL(ogImage, brand.url).href} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="theme-color" content={issueColor ?? brand.defaultColor} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fontsHref(styles)} />
+    {styles.map((key) => <style is:inline set:html={themeCss(key)} />)}
+    <script is:inline>
+      try {
+        var m = localStorage.getItem('farvetilstand')
+        if (m === 'dark' || m === 'light') document.documentElement.dataset.theme = m
+      } catch (e) {}
+    </script>
+    {
+      sketch && (
+        <script is:inline>
+          try {
+            var s = localStorage.getItem('stilretning')
+            if (s === 'review' || s === 'magasin' || s === 'museum') document.documentElement.dataset.style = s
+          } catch (e) {}
+        </script>
+      )
+    }
+  </head>
+  <body>
+    <slot />
+    <script is:inline define:vars={{sketch}}>
+      // Lys/mørk: følger systemet, indtil læseren vælger selv.
+      var root = document.documentElement
+      var dark = window.matchMedia('(prefers-color-scheme: dark)')
+      var current = function () {
+        return root.dataset.theme || (dark.matches ? 'dark' : 'light')
+      }
+      var label = function () {
+        document.querySelectorAll('.mode-toggle').forEach(function (b) {
+          b.textContent = current() === 'dark' ? 'Lys tilstand' : 'Mørk tilstand'
+        })
+      }
+      document.querySelectorAll('.mode-toggle').forEach(function (b) {
+        b.hidden = false
+        b.addEventListener('click', function () {
+          var next = current() === 'dark' ? 'light' : 'dark'
+          root.dataset.theme = next
+          try {
+            localStorage.setItem('farvetilstand', next)
+          } catch (e) {}
+          label()
+        })
+      })
+      dark.addEventListener('change', label)
+      label()
+
+      // Pop-out: opslag foldes ud over forsiden og får deres egen adresse.
+      var openFromLink = function (slug, href, push) {
+        var dialog = document.getElementById('pop-' + slug)
+        if (!dialog) return false
+        if (!dialog.open) dialog.showModal()
+        dialog.scrollTop = 0
+        if (push && !sketch) history.pushState({pop: slug}, '', href)
+        return true
+      }
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest && e.target.closest('a[data-pop]')
+        if (!link || e.metaKey || e.ctrlKey || e.shiftKey) return
+        if (openFromLink(link.dataset.pop, link.getAttribute('href'), true)) e.preventDefault()
+      })
+      document.querySelectorAll('dialog.popout').forEach(function (dialog) {
+        dialog.addEventListener('click', function (e) {
+          if (e.target === dialog || (e.target.closest && e.target.closest('.popout__close'))) dialog.close()
+        })
+        dialog.addEventListener('close', function () {
+          if (!sketch && history.state && history.state.pop) history.back()
+        })
+      })
+      window.addEventListener('popstate', function (e) {
+        document.querySelectorAll('dialog.popout[open]').forEach(function (d) {
+          if (!e.state || 'pop-' + e.state.pop !== d.id) d.close()
+        })
+        if (e.state && e.state.pop) openFromLink(e.state.pop, location.pathname, false)
+      })
+
+      // Video: plakaten skiftes til YouTube-afspiller ved klik.
+      if (!sketch) {
+        document.querySelectorAll('a[data-youtube]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault()
+            var f = document.createElement('iframe')
+            f.src = 'https://www.youtube-nocookie.com/embed/' + a.dataset.youtube + '?autoplay=1'
+            f.title = a.dataset.title || 'Video'
+            f.allow = 'autoplay; encrypted-media; picture-in-picture'
+            f.allowFullscreen = true
+            a.replaceWith(f)
+          })
+        })
+      }
+    </script>
+  </body>
+</html>

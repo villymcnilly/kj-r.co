@@ -1,0 +1,43 @@
+---
+/** Opslagets egen side – det man lander på fra et delt link. */
+import BundleFull from '../../../components/BundleFull.astro'
+import Footer from '../../../components/Footer.astro'
+import Masthead from '../../../components/Masthead.astro'
+import Layout from '../../../layouts/Layout.astro'
+import {getIssue, getIssueNumbers, issuePath, placedBundles} from '../../../lib/content.ts'
+import type {Bundle, Issue} from '../../../lib/types.ts'
+
+export async function getStaticPaths() {
+  const numbers = await getIssueNumbers()
+  const issues = await Promise.all(numbers.map((n) => getIssue(n)))
+  return issues
+    .filter((i): i is Issue => Boolean(i))
+    .flatMap((issue) =>
+      placedBundles(issue).map((bundle) => ({
+        params: {number: String(issue.number), slug: bundle.slug},
+        props: {issue, bundle},
+      })),
+    )
+}
+
+const {issue, bundle} = Astro.props as {issue: Issue; bundle: Bundle}
+---
+
+<Layout
+  title={bundle.headline}
+  description={bundle.dek}
+  theme={issue.artDirection?.theme}
+  issueColor={issue.artDirection?.color}
+  type="article"
+>
+  <div class="page">
+    <Masthead number={issue.number} date={issue.date} />
+    <main class="standalone">
+      <div class="bundle-full">
+        <a class="back-link" href={issuePath(issue.number)}>Til forsiden af nr. {issue.number}</a>
+      </div>
+      <BundleFull bundle={bundle} headingLevel={1} />
+    </main>
+    <Footer />
+  </div>
+</Layout>
