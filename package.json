@@ -1,0 +1,18 @@
+{
+  "name": "arbejdstitel",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "studio"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "studio": "npm run dev -w studio",
+    "seed:build": "node seed/build.ts",
+    "seed:import": "npm run seed:build && npm run import -w studio",
+    "seed:remove": "npm run remove-dummy -w studio",
+    "typecheck": "npm run typecheck -w studio"
+  }
+}

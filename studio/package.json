@@ -1,0 +1,26 @@
+{
+  "name": "studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "typecheck": "tsc --noEmit",
+    "import": "sanity dataset import ../seed/seed.ndjson ${SANITY_STUDIO_DATASET:-production} --replace",
+    "remove-dummy": "sanity exec scripts/removeDummy.ts --with-user-token"
+  },
+  "dependencies": {
+    "@sanity/locale-da-dk": "^1.0.33",
+    "@sanity/vision": "^6.18.0",
+    "react": "^19.2.2",
+    "react-dom": "^19.2.2",
+    "sanity": "^6.18.0",
+    "styled-components": "^6.1.15"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.2.0",
+    "typescript": "^5.9.0"
+  }
+}

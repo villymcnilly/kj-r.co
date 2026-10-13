@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.sanity/
+.astro/
+.vercel/
+.env
+.env.*
+!.env.example
+seed/seed.ndjson
+.DS_Store
